@@ -1,0 +1,25 @@
+﻿services:
+  stackexchange.api:
+    image: stackexchange.api
+    build:
+      context: .
+      dockerfile: Stackexchange.API/Dockerfile
+    ports:
+      - "5163:80"
+      - "5164:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+  stackexchange_db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: stackexchange_db
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-data:/se_db
+
+volumes: 
+  db-data:
