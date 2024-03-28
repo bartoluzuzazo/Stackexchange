@@ -10,6 +10,7 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=80
+      - SE_DB_CONNSTR=Server=stackexchange_db,1433; Database=se_db; User=sa; Password=Pass@word;TrustServerCertificate=True
   stackexchange_db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: stackexchange_db
