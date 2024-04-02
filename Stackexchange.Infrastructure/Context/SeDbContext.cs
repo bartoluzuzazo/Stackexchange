@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stackexchange.Domain.Tags;
-using Stackexchange.Domain.Users;
 
 namespace Stackexchange.Infrastructure.Context;
 
@@ -17,8 +16,6 @@ public partial class SeDbContext : DbContext
 
     public virtual DbSet<Tag> Tags { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("SE_DB_CONNSTR"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,21 +31,6 @@ public partial class SeDbContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Percentage).HasColumnType("decimal(5, 2)");
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("User_pk");
-
-            entity.ToTable("User");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(300)
-                .IsUnicode(false);
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
