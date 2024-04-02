@@ -14,6 +14,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Stackexchange.Infrastructure\Stackexchange.Infrastructure.csproj" />
+
+
     </ItemGroup>
 
 

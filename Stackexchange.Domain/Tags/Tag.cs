@@ -13,4 +13,6 @@ public class Tag
     public bool IsModeratorOnly { get; set; }
 
     public bool HasSynonyms { get; set; }
+    
+    public decimal Percentage { get; set; }
 }

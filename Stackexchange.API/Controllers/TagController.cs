@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Stackexchange.Application.DTOs.Tag;
+using Stackexchange.Application.TagServices.Commands;
 using Stackexchange.Application.TagServices.Queries;
 
 namespace Stackexchange.API.Controllers;
@@ -16,9 +18,13 @@ public class TagController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOk()
+    public async Task<IActionResult> GetPage(int page, int count, string sortField, bool asc)
     {
-        return Ok(Environment.GetEnvironmentVariable("SE_DB_CONNSTR"));
+        var sortFields = new List<string> { "none", "name", "percentage" };
+        if (!sortFields.Contains(sortField)) return BadRequest();
+        var query = new GetTagPageQuery(page, count, sortField, asc);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
     
     [HttpGet("all")]
@@ -27,5 +33,13 @@ public class TagController : ControllerBase
         var query = new GetTagQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(TagPost request)
+    {
+        var command = new PostTagCommand(request.RedownloadAll);
+        await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetAll), "");
     }
 }
