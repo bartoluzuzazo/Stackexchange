@@ -12,6 +12,7 @@
       - ASPNETCORE_HTTP_PORTS=80
       - SE_DB_CONNSTR=Server=stackexchange_db,1433; Database=se_db; User=sa; Password=Pass@word;TrustServerCertificate=True
       - DB_TAG_LIMIT=1000
+      - LOG_PATH=Logs/logs.txt
   stackexchange_db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: stackexchange_db

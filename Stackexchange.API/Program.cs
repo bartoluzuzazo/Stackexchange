@@ -6,7 +6,7 @@ using Stackexchange.Domain.Tags;
 using Stackexchange.Infrastructure.Context;
 using Stackexchange.Infrastructure.Repositories;
 
-Log.Logger = new LoggerConfiguration().WriteTo.File("logs/logs.txt").CreateLogger();
+Log.Logger = new LoggerConfiguration().WriteTo.File(Environment.GetEnvironmentVariable("LOG_PATH") ?? "Logs/logs.txt").CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
