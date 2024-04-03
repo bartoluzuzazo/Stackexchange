@@ -1,6 +1,4 @@
-﻿using Stackexchange.Application.DTOs.Tag;
-
-namespace Stackexchange.Application.DTOs.SoTagWrapper;
+﻿namespace Stackexchange.Application.DTOs.SoTagWrapper;
 
 public class TagWrapper
 {

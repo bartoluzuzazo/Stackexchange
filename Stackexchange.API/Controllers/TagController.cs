@@ -3,43 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 using Stackexchange.Application.DTOs.Tag;
 using Stackexchange.Application.TagServices.Commands;
 using Stackexchange.Application.TagServices.Queries;
+using Stackexchange.Domain.Tags;
 
 namespace Stackexchange.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TagController : ControllerBase
+public class TagController(IConfiguration configuration, IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public TagController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetPage(int page, int count, string sortField, bool asc)
     {
         var sortFields = new List<string> { "none", "name", "percentage" };
         if (!sortFields.Contains(sortField)) return BadRequest();
+        var countLimit = int.Parse(configuration["GET_TAG_PAGE_LIMIT"] ?? "100");
+        if (count > countLimit) return BadRequest($"Count cannot be higher than {countLimit}");
         var query = new GetTagPageQuery(page, count, sortField, asc);
-        var result = await _mediator.Send(query);
+        var result = await mediator.Send(query);
         return Ok(result);
     }
     
-    [HttpGet("all")]
-    public async Task<IActionResult> GetAll()
-    {
-        var query = new GetTagQuery();
-        var result = await _mediator.Send(query);
-        return Ok(result);
-    }
-
     [HttpPost]
-    public async Task<IActionResult> Post(TagPost request)
+    public async Task<IActionResult> Post()
     {
-        var command = new PostTagCommand(request.RedownloadAll);
-        await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetAll), "");
+        var command = new PostTagCommand();
+        await mediator.Send(command);
+        return CreatedAtAction(nameof(GetPage), "");
     }
 }

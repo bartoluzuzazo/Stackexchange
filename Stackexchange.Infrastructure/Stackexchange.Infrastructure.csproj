@@ -17,6 +17,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Stackexchange.Domain\Stackexchange.Domain.csproj" />
+
+
     </ItemGroup>
 
 

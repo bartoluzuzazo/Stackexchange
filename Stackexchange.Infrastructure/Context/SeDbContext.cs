@@ -18,7 +18,7 @@ public partial class SeDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("SE_DB_CONNSTR"));
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override async void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Tag>(entity =>
         {
