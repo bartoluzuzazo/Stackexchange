@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Stackexchange.Application.DTOs.Tag;
 using Stackexchange.Application.TagServices.Commands;
 using Stackexchange.Application.TagServices.Queries;
-using Stackexchange.Domain.Tags;
 
 namespace Stackexchange.API.Controllers;
 
